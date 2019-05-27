@@ -6,12 +6,12 @@ Only the obstacle detection and path planning has been implemented in C++. The c
 Pull the repo.
 Run the following commands to compile and run
 Compile:
-'''
+```bash
 cd <catkin_ws>
 catkin_make
 source devel/setup.bash
-'''
+```
 Run:
-'''
+```bash
 rosrun <name of package> planner
-'''
+```
