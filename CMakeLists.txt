@@ -141,6 +141,13 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/ses_node.cpp)
+add_executable(planner src/with_laserscan.cpp src/with_laserscan.h src/rrt.cpp src/rrt.h src/node.cpp src/node.h)
+target_link_libraries(planner ${catkin_LIBRARIES})
+add_dependencies(planner ses_generate_messages_cpp)
+
+#add_executable(test_1 src/test.cpp)
+#target_link_libraries(test_1 ${catkin_LIBRARIES})
+#add_dependencies(test_1 ses_generate_messages_cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

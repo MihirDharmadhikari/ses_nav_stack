@@ -160,6 +160,7 @@ def increasing_array(input_data):
 
 def dothis(data):
 	toedit1=data
+	# print len(data.ranges)
 	edited1=list(map(decrease_in_direction,toedit1.ranges[:]))
 	toedit1_extended=increasing_array(edited1)
 	toedit1.ranges=toedit1_extended
