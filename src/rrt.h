@@ -6,7 +6,7 @@
 #include <time.h>
 #include "node.h"
 
-#define OBSTACLE_THRESHOLD 0.2
+#define OBSTACLE_THRESHOLD 0.15
 
 using namespace std;
 
@@ -23,13 +23,14 @@ class RRT
         float maxx;
         float maxy;
         int goal_sample_rate;
+        float conv_error;
 
         float expand_distance;
         int max_iter;
         float min_jump;  // When checking intersection of a line with the obstacles
 
         vector<Node> obstacles;
-        // vector<float *> path;
+        vector<Node> prev_path;
 
 
     public:
@@ -41,5 +42,6 @@ class RRT
         int get_nearest_index(float *, vector<Node>);
         vector<Node> planning();
         void update_obstacles(vector<Node>);
+        float calculate_path_length(vector<Node>);
     
 };

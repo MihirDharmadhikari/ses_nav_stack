@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import rospy
 from geometry_msgs.msg import Twist
 import sys, select, termios, tty
@@ -39,7 +40,7 @@ class Motor_Controller:
 		self.goal_xcoordinate = 0.0
 		self.goal_ycoordinate = 0.0
 
-		self.theta_kp = 1.0/3.0
+		self.theta_kp = 2.0/1.0
 		self.theta_kd = 0.0
 		self.theta_ki = 0.0
 
@@ -143,13 +144,20 @@ class Motor_Controller:
 		self.prev_theta = angle
 		self.int_theta += angle
 
-		if(angle<0.1 and angle>-0.1 and dist > 0.05):
-			if(dist>0.05):
+		# velx = self.vel_kp*dist + self.vel_kd*(dist - self.prev_dist) + self.vel_ki*(self.int_dist)
+		# # velx = 0.08
+		# if (velx<self.vel_low_limit):
+		# 	velx = self.vel_low_limit
+		# self.int_dist+=dist - self.prev_dist
+		print "angle", angle
+		if(angle<1.0 and angle>-1.0):
+			if(dist > 0.05):
 				velx = self.vel_kp*dist + self.vel_kd*(dist - self.prev_dist) + self.vel_ki*(self.int_dist)
+				# velx = 0.08
 				if (velx<self.vel_low_limit):
 					velx = self.vel_low_limit
 				self.int_dist+=dist - self.prev_dist
-
+		# velx = 0.05
 		velx = self.checkLinearLimitVelocity(velx)
 		omega = self.checkAngularLimitVelocity(omega)
 		#print velx,"    ",omega,"   ", self.robot_yaw
@@ -167,7 +175,7 @@ class Motor_Controller:
 
 		try:
 			while not rospy.is_shutdown():
-				print self.goal
+				# print self.goal
 				twist = Twist()
 				if (len(self.goal)!=0):
 					target_linear_vel,target_angular_vel = self.calculate_velocity()

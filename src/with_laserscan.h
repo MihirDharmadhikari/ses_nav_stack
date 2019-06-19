@@ -13,7 +13,7 @@
 #include "tf/transform_datatypes.h"
 // #include "LinearMath/btMatrix3x3.h"
 
-#define REACHED_THRESHOLD 0.05
+#define REACHED_THRESHOLD 0.08
 
 class Planner
 {
@@ -39,6 +39,10 @@ class Planner
         float temp_obstacle[2];
 
         RRT rrt;
+        float minx;
+        float miny;
+        float maxx;
+        float maxy;
         // RRT rrt(s, g, obstacles, -1.0, -2.0, 4.0, 2.0, 0.1, 500, 0.01);
     public:
         Planner(Node, Node);
