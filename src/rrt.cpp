@@ -180,10 +180,11 @@ vector<Node> RRT::planning()
             break;
         }
             
-        else
-        {
-            if(RRT::line_check(nearestNode, goal)) break;
-        }
+        // else
+        // {   
+        //     float g_dist = sqrt(pow((nearestNode.x-goal.x),2) + pow((nearestNode.y-goal.y),2));
+        //     if((RRT::line_check(nearestNode, goal)) && g_dist < G_THRESHOLD) break;
+        // }
         iteration_cnt++;
         if(iteration_cnt > max_iter)
         {
@@ -229,7 +230,7 @@ vector<Node> RRT::planning()
     // do
     // std::cout << "Conv error: " << conv_error << endl;
     // while(conv_error > conv_dist)
-    for(int c=0;c<2;c++)
+    for(int c=0;c<1;c++)
     {
         // std::cout << "INSIDE WHILE LOOP" << endl;
         // std::cout << "Conv error beg: " << conv_error << endl;

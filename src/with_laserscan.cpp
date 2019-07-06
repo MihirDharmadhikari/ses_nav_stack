@@ -12,14 +12,16 @@ Planner::Planner(Node start, Node goal)
     this->g = goal;
     float sample_area = 2.0;
     
-    if(s.x > g.x) {this->minx = s.x + sample_area; this->maxx = g.x - sample_area;}
+    if(s.x > g.x) {this->maxx = s.x + sample_area; this->minx = g.x - sample_area;}
     else {this->minx = s.x - sample_area; this->maxx = g.x + sample_area;}
 
-    if(s.y > g.y) {this->miny = s.y + sample_area; this->maxy = g.y - sample_area;}
+    if(s.y > g.y) {this->maxy = s.y + sample_area; this->miny = g.y - sample_area;}
     else {this->miny = s.y - sample_area; this->maxy = g.y + sample_area;}
 
 
     counter = 0;
+    cout << minx << " " << maxx << endl;
+    cout << miny << " " << maxy << endl;
     // this->rrt = rrt_ip;
 
     vector<Node> obstacles;
@@ -30,7 +32,7 @@ Planner::Planner(Node start, Node goal)
     }
 
     Node cur_pos_con(robot_x, robot_y);
-    RRT rrt(s, g, obstacles, minx, miny, maxx, maxy, 0.1, 500, 0.01);
+    RRT rrt(s, g, obstacles, minx, miny, maxx, maxy, 0.1, 5000, 0.01);
 
     path = rrt.planning();
 }
@@ -173,8 +175,8 @@ void Planner::scan_cb(const sensor_msgs::LaserScan& msg)
     // }
     if(!checker)
     {
-        // RRT rrt(curr_pos, g, obstacles, minx, miny, maxx, maxy, 0.1, 500, 0.01);
-        RRT rrt(curr_pos, path[path.size()-2-counter], obstacles, -1.0, -4.0, 6.0, 4.0, 0.1, 500, 0.01);
+        RRT rrt(curr_pos, g, obstacles, minx, miny, maxx, maxy, 0.1, 5000, 0.01);
+        // RRT rrt(curr_pos, path[path.size()-2-counter], obstacles, -1.0, -4.0, 6.0, 4.0, 0.1, 500, 0.01);
         // new_path = path;
         // new_path = rrt.planning();
         path = rrt.planning();
@@ -184,43 +186,63 @@ void Planner::scan_cb(const sensor_msgs::LaserScan& msg)
         // }
         path_changed = true;
         // path = new_path;
-    } 
+    }     
+    /* *************************************** */  
+
+    // checker = true;
+    // int faulty_point = 0; // This is the last point in the line segment that has obstacle
+    // Node curr_pos(robot_x, robot_y);
+
+    // // If there is an obstacle from current position to current setpoint
+    // if(!Planner::line_check(path[path.size()-2-counter], curr_pos, obstacles))
+    // {
+    //     // cout << "obstacle" << endl;
+    //     checker = false;
+    //     faulty_point = path.size()-2-counter;
+    //     if(!checker)
+    //     {   
+    //         cout << path.size() << endl;
+    //         if(path.size()>2)
+    //         {
+    //             RRT rrt(curr_pos, path[path.size()-2-counter], obstacles, minx, miny, maxx, maxy, 0.1, 500, 0.01);
+    //             new_path = path;
+    //             path = rrt.planning();
+    //             for(int k = (path.size()-2-counter);k>=0;k--)    
+    //             {
+    //                 path.insert(path.begin(), new_path[k]);
+    //                 // new_path.erase(new_path.end());
+    //             }
+    //             path_changed = true;
+    //         }
+    //         else
+    //         {
+    //             RRT rrt(curr_pos, g, obstacles, minx, miny, maxx, maxy, 0.1, 500, 0.01);
+    //             path = rrt.planning();
+    //             path_changed = true;
+    //         }
+    //     }
+    //     // break;
+    // }
+    // If not
     // else
     // {
-    //     Node curr_pos(robot_x, robot_y);
-    //     RRT rrt(curr_pos, g, obstacles, -1.0, -2.0, 4.0, 2.0, 0.1, 500, 0.01);
-    //     new_path = rrt.planning();
-    //     if(get_distance(new_path) < get_distance(path))
+    //     /* code */
+    //     for(int j=(path.size()-2-counter);j>0;j--)
     //     {
-    //         path = new_path;
-    //         path_changed = true;
+    //         if(!Planner::line_check(path[j], path[j-1]))
+    //         {
+    //             checker = false;
+    //             faulty_point = j-1;
+    //             break;
+    //         }
+    //     }
+    //     if(!checker)
+    //     {
+    //         RRT rrt(curr_pos, path[path.size()-2-counter], obstacles, -1.0, -4.0, 6.0, 4.0, 0.1, 500, 0.01);
     //     }
     // }
+
     
-    /* *************************************** */
-
-
-    // for(int i=1;i<path.size()-1;)
-    // {
-    //     Node n1, n2;
-    //     float min_jump = 0.01;
-    //     float theta1 = atan2((path[i].y-path[i-1].y), (path[i].x-path[i-1].x));
-    //     float theta2 = atan2((path[i+1].y-path[i].y), (path[i+1].x-path[i].x));
-
-    //     n1.x = path[i].x - min_jump*i*cos(theta1);
-    //     n1.y = path[i].y - min_jump*i*sin(theta1);
-
-    //     n2.x = path[i].x - min_jump*i*cos(theta2);
-    //     n2.y = path[i].y - min_jump*i*sin(theta2);
-
-    //     if(!Planner::line_check(n1, n2, obstacles))
-    //     {
-    //         path.insert(path.begin()+i, n1);
-    //         path.insert(path.begin()+i+2, n2);
-    //     }
-
-    //     i = i+3;
-    // }
     
 
     cout << "path:" << endl;
@@ -245,16 +267,16 @@ void Planner::scan_cb(const sensor_msgs::LaserScan& msg)
     nav_path.header.frame_id = "odom";
     
     nav_pub.publish(nav_path);
-
+    
     if(!path_changed)
     {
         float dist = sqrt(pow((robot_x - path[path.size()-2-counter].x), 2) + pow((robot_y - path[path.size()-2-counter].y), 2));
-        cout << "Path point: " << path[path.size()-2-counter].x << " " << path[path.size()-2-counter].y;
+        // cout << "Path point: " << path[path.size()-2-counter].x << " " << path[path.size()-2-counter].y;
         // cout << "pose: " << robot_x << " " << robot_y << endl;
-        cout << " | dist: " << dist << endl;
+        // cout << " | dist: " << dist << endl;
         if(dist <= REACHED_THRESHOLD)
         {
-            if(counter<path.size()-1) counter++;
+            if(counter<path.size()-2) counter++;
             else 
             {
                 cout << "Goal Reached" << endl;
@@ -266,7 +288,7 @@ void Planner::scan_cb(const sensor_msgs::LaserScan& msg)
     }
     else counter = 0;
 
-    // cout << "counter: " << counter << " path_size: " << path.size() << endl;
+    cout << "counter: " << counter << endl;
 
 
 

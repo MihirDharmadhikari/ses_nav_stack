@@ -7,6 +7,7 @@
 #include "node.h"
 
 #define OBSTACLE_THRESHOLD 0.15
+#define G_THRESHOLD 1
 
 using namespace std;
 

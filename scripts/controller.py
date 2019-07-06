@@ -16,7 +16,7 @@ class Motor_Controller:
 		self.BURGER_MAX_LIN_VEL = 0.22
 		self.BURGER_MAX_ANG_VEL = 2.00
 
-		self.vel_low_limit = 0.05
+		self.vel_low_limit = 0.09
 
 		self.WAFFLE_MAX_LIN_VEL = 0.26
 		self.WAFFLE_MAX_ANG_VEL = 1.82
