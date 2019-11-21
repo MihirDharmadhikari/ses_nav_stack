@@ -36,7 +36,8 @@ Give the start as the current position of the bot and goal anypoint between x:[-
 
 Terminal 3:
 ```bash
-roslaunch turtlebot3_gazebo turtlebot3_gazebo_rviz.launch
+cd <path to package>
+rviz -d rviz/planner.rviz
 ```
 Add path msg into rviz from the add button on bottom left
 
