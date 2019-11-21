@@ -2,7 +2,7 @@
 RRT based dynamic path planning package robots having 2D lidar system. The planner is currently tested on Turtlebot3 and used its odometry package for localization. 
 
 # Dependancies:
-- ROS kinetic on Ubuntu 16.04: http://wiki.ros.org/ROS/Installation
+- ROS kinetic on Ubuntu 16.04: http://wiki.ros.org/kinetic/Installation/Ubuntu
 - Turtlebot3 software stack:
   ```bash
   sudo apt-get install ros-kinetic-turtlebot3*
