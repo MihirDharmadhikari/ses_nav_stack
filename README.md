@@ -1,5 +1,14 @@
 # ses_nav_stack
+RRT based dynamic path planning package robots having 2D lidar system. The planner is currently tested on Turtlebot3 and used its odometry package for localization. 
 
+# Dependancies:
+- ROS kinetic on Ubuntu 16.04: http://wiki.ros.org/ROS/Installation
+- Turtlebot3 software stack:
+  ```bash
+  sudo apt-get install ros-kinetic-turtlebot3*
+  cd <catkin_ws>/src
+  git clone https://github.com/ROBOTIS-GIT/turtlebot3.git
+  ```
 # Running the C++ implementation:
 Only the obstacle detection and path planning has been implemented in C++. The controller has to be used as it is from the scripts folder. This part is yet to be integrated with the Global planner.
 
