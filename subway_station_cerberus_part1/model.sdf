@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+ <model name="subway_station_cerberus_part1">
+   <pose>0 0 0 0 0 0</pose>
+   <static>true</static>
+   <link name="link">
+     <collision name="collision">
+       <geometry>
+         <mesh>
+           <uri>model://subway_station_cerberus_part1/meshes/part1/subway_no_details_part1_red.dae</uri>
+           <scale>0.012 0.012 0.012</scale>
+         </mesh>
+       </geometry>
+     </collision>
+     <visual name="visual">
+       <geometry>
+         <mesh>
+           <uri>model://subway_station_cerberus_part1/meshes/part1/subway_no_details_part1_red.dae</uri>
+           <scale>0.012 0.012 0.012</scale>
+         </mesh>
+       </geometry>
+     </visual>
+   </link>
+ </model>
+</sdf>
